@@ -44,7 +44,7 @@ The preferred way to use `$async` is to give it a scope and an object containing
 
 ```js
 $async(scope, {
-  var: function (resolve) { resolve("value"); },
+  var1: function (resolve) { resolve("value"); },
   var2: function (resolve) { resolve("value2"); }
 });
 ```
@@ -52,7 +52,27 @@ $async(scope, {
 There is also an alternative format for providing a single property:
 
 ```js
-$async(scope, 'var', function (resolve) { resolve("var"); });
+$async(scope, 'var3', function (resolve) { resolve("value3"); });
 ```
 
 The resolve functions may also return a value, this will be the value of `scope.var` before `resolve()` is called.
+
+Example:
+
+```js
+var data = {};
+
+$async(data, 'stockPrice', function (resolve) {
+  $timeout(function () {
+    resolve(123.45);
+  }, 1000);
+  
+  return 'unknown';
+});
+
+console.log('Stock price:', data.stockPrice);   // unknown
+
+setTimeout(function () {
+  console.log('Stock price:', data.stockPrice); // 123.45
+}, 1100);
+```

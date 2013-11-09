@@ -66,6 +66,25 @@
         });
       }});
       
+      /**
+       * Use with a plain JS object
+       */
+      var data = {};
+      
+      $async(data, 'stockPrice', function (resolve) {
+        $timeout(function () {
+          resolve(123.45);
+        }, 1000);
+        
+        return 'unknown';
+      });
+      
+      console.log('Stock price:', data.stockPrice);   // unknown
+      
+      setTimeout(function () {
+        console.log('Stock price:', data.stockPrice); // 123.45
+      }, 1100);
+      
     });
   </script>
 </head>

@@ -11,13 +11,13 @@
  * Usage:
  * 
  *  $async(scope, {
- *    var: function (resolve) { ... },
+ *    var1: function (resolve) { ... },
  *    var2: function (resolve) { ... }
  *  });
  *
  * Alternative:
  *
- *  $async(scope, 'var', function (resolve) { ... });
+ *  $async(scope, 'var3', function (resolve) { ... });
  */
 (function (angular) {
   
