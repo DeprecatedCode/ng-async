@@ -1,4 +1,58 @@
 ng-async
 ========
 
-Angular.js asynchronous value service
+Angular.js asynchronous value service: `$async`
+
+## Example
+
+#### JavaScript
+
+```js
+var exampleApp = angular.module('exampleApp', ['ng.async']);
+
+exampleApp.controller('exampleCtrl', function ($scope, $async) {
+  
+  /**
+   * $scope.name will be set to NPH
+   */
+  $async($scope, 'name', function (resolve) {
+    resolve('Neil Patrick Harris');
+  });
+  
+});
+```
+
+#### HTML Template
+
+```html
+<html ng-app="exampleApp">
+  <body>
+    <div ng-controller="exampleCtrl">
+      <p>Dr. Horrible is played by {{name}}.</p>
+    </div>
+  </body>
+</html>
+```
+
+#### Result
+
+  Dr. Horrible is played by Neil Patrick Harris.
+
+## Usage
+
+The preferred way to use `$async` is to give it a scope and an object containing resolve functions:
+
+```js
+$async(scope, {
+  var: function (resolve) { resolve("value"); },
+  var2: function (resolve) { resolve("value2"); }
+});
+```
+
+There is also an alternative format for providing a single property:
+
+```js
+$async(scope, 'var', function (resolve) { resolve("var"); });
+```
+
+The resolve functions may also return a value, this will be the value of `scope.var` before `resolve()` is called.
