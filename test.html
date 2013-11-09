@@ -1,0 +1,84 @@
+<!doctype html>
+<html ng-app="exampleApp">
+<head>
+  <title>AngularJS ng.async Test Page</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+  <script src="ng.async.js"></script>
+  <style>
+    body {
+      background: #eee;
+      color: #444;
+      font-family: sans-serif;
+      margin: 1em;
+      padding: 0;
+    }
+  </style>
+  <script>
+  
+    /**
+     * Example Angular App using ng.async
+     */
+    var angular = window.angular;
+    var exampleApp = angular.module('exampleApp', ['ng.async']);
+
+    exampleApp.controller('exampleCtrl', function ($scope, $async, $timeout, $http) {
+      
+      /**
+       * $scope.name will asyncronously be set to NPH
+       */
+      $async($scope, 'name', function (resolve) {
+        
+        $timeout(function () {
+          resolve('Neil Patrick Harris');
+        }, 1000);
+        
+        /**
+         * Temporary values can be returned
+         */
+        return 'a great actor';
+      });
+      
+      /**
+       * A real API call to get a list of users
+       */
+      $async($scope, {users: function (resolve) {
+        $http.get('test-data.json').success(function (users) {
+          
+          /**
+           * We can chain the $async service to go deeper
+           */
+          users.map(function (user) {
+            
+            /**
+             * Instead of making another HTTP call, let's make up some data
+             */
+            $async(user, 'favoriteNumber', function (resolve) {
+              $timeout(function () {
+                resolve(Math.floor(Math.random() * 100));
+              }, 10000 * Math.random());
+            });
+          });
+          
+          /**
+           * Let $async know that the users variable is ready
+           */
+          resolve(users);
+        });
+      }});
+      
+    });
+  </script>
+</head>
+<body ng-controller="exampleCtrl">
+  <h1>AngularJS ng.async Test Page</h1>
+  <p>Dr. Horrible is played by {{name}}.</p>
+  <hr/>
+  <p><b>Users:</b></p>
+  <ul>
+    <li ng-repeat="user in users">{{user.name}}
+      <ul><li>Favorite number: {{user.favoriteNumber || 'not sure'}}</li></ul>
+      <br/>
+    </li>
+  </ul>
+</body>
+  
