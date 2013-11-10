@@ -56,9 +56,9 @@
             /**
              * Instead of making another HTTP call, let's make up some data
              */
-            $async(user, 'favoriteNumber', function (resolve) {
+            $async(user, 'accountBalance', function (resolve) {
               $timeout(function () {
-                resolve(Math.floor(Math.random() * 100));
+                resolve(user.balance);
               }, 10000 * Math.random());
             });
           });
@@ -102,9 +102,9 @@
   <p><b>Users:</b></p>
   <ul>
     <li ng-repeat="user in users">{{user.name}}
-      <ul><li>Favorite number: {{user.favoriteNumber || 'not sure'}}</li></ul>
+      <ul><li>Bank account balance: {{user.accountBalance || 'not sure'}}</li></ul>
       <br/>
     </li>
   </ul>
 </body>
-  
+</html>
